@@ -1,0 +1,13 @@
+#ifndef H_SHAPE
+#define H_SHAPE 
+struct shape;
+typedef struct shape Shape;
+Shape * shape_init();
+Shape * shape_initWithValue(double x, double y, double z, char * form);
+void shape_delete(Shape * p);
+void shape_moveAbsolute(Shape * p, double x, double y, double z);
+void shape_moveRelative(Shape * p, double x, double y, double z);
+void shape_transform(Shape * p, char * newForm);
+void shape_print(Shape * p);
+void shape_setInside(Shape * p, Shape * childname);
+#endif

@@ -1,0 +1,191 @@
+/*
+list_next
+list_get
+*next->list_next();
+*get_list_get();
+*begin...
+list_create()
+{
+	
+	m = malloc();
+	m->next=list_next();
+	begin=
+}
+
+вывод
+вставка\удаление
+сортировка
+
+	create
+	delete
+	insert ()
+	delet_elem
+	get_elem
+
+logo model library
+OplenGL
+SDL
+*/
+
+#include <stdio.h>
+#include <stdlib.h>
+
+typedef
+struct listElem
+{
+	void* data;
+	struct listElem* prev;
+	struct listElem* next;
+} Elem;
+
+typedef
+struct  list
+{
+	Elem* start;
+} List;
+
+typedef
+struct list_iter
+{
+	Elem* index;
+} Iter;
+
+Elem* add_elem()
+{
+	return calloc(1, sizeof(Elem));
+}
+
+void delete_elem(Elem* p)
+{
+	free(p);
+	p = NULL;
+}
+
+void delete_allElems(Elem* p)
+{
+	if(p -> next != 0)
+		delete_allElems(p -> next);
+	delete_elem(p);
+}
+
+Iter* list_iter_prev(Iter* p)
+{
+	p -> index = p -> index -> prev;
+	return p;
+}
+
+int list_iter_zeroEqual(Iter* p)
+{
+	if(p -> index -> next)
+		return 0;
+	return 1;
+}
+
+Iter* list_iter_next(Iter* p)
+{
+	p -> index = p -> index -> next;
+	return p;
+}
+
+Iter* list_iter_begin(List* p)
+{
+	Iter* iterator = calloc(1, sizeof(Iter));
+	iterator -> index = p->start;
+	//printf("it: list_iter_prev %p\n", it->index);
+	return iterator;
+}
+
+Iter* list_iter_end(List* p)
+{
+	Iter* iterator = list_iter_begin(p);
+	for(;!list_iter_zeroEqual(iterator); list_iter_next(iterator));
+	printf("list_iter_end: %p\n", iterator->index);
+	return iterator;
+}
+
+List* list_create()
+{
+	List* p = calloc(1, sizeof(List));
+	p -> start = add_elem();
+	printf("it: p->start %p\n", p->start);
+	p -> start -> prev = NULL;
+	p -> start -> next = NULL;
+	p -> start -> data = NULL;
+	return p;
+}
+
+void list_delete(List* p)
+{	
+	delete_allElems(p -> start);
+	free(p);
+}
+
+void list_elem_delete(Iter *p)
+{
+	Elem* buf = p->index;
+	p->index->prev->next = p->index->next;
+	p->index->next->prev = p->index->prev;
+	delete_elem(buf);
+}
+
+List* list_insertToBegin(List *p, void *data)
+{
+	printf("0it: p->start %p\n", p->start);
+	Elem* newElem = add_elem();
+	newElem -> data = data;
+	newElem -> next = p -> start;
+	p -> start -> prev = newElem;
+	p -> start = newElem;
+	//printf("1it: p->start %p\n", p->start);
+	//printf("1it: p->start->next %p\n", p->start->next);
+	//printf("1it: p->start->next->prev %p\n", p->start->next->prev);
+	return p; 
+}
+
+void list_insertTo(Iter* p, void *data)
+{
+	Elem* newElem = add_elem();
+	newElem->data = data;
+	//if(p->index->next == NULL)
+	newElem->prev = p->index;
+	newElem->next = p->index->next;
+	newElem->next->prev = newElem;
+	p->index->next = newElem;
+}
+
+List* list_insertToEnd(List *p, void *data)
+{
+	if(p -> start -> next == NULL){
+		return list_insertToBegin(p, data);
+	}
+	Iter* it = list_iter_end(p);
+	//printf("it: list_iter_end %p\n", it->index);
+	list_iter_prev(it);
+	//printf("it: list_iter_prev %p\n", it->index);
+	list_insertTo(it, data);
+	free(it);
+	return p;
+}
+
+void list_swap(Iter *it_1, Iter *it_2)
+{
+	void* data_buf = it_1->index->data;
+	it_1->index->data = it_2->index->data;
+	it_2->index->data = data_buf; 
+}
+
+void* list_iter_get(Iter* p){
+	return p -> index -> data;
+}
+
+void list_iter_delete(Iter* p)
+{
+	free(p);
+}
+
+Iter* list_iter_copy(Iter* p)
+{
+	Iter* iterator = calloc(1, sizeof(Iter));
+	iterator -> index = p -> index;
+	return iterator;
+}

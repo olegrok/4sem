@@ -1,0 +1,67 @@
+1. Проект на семинаре (До 1 апреля):
+ООП на Си
+Контейнеры: --list\vector, !map hash\tree.
+
+
+2. Проект по выбору (После 1 апреля):
+Описание до 1 апреля (техническое описание)
+
+github
+sourceforge
+
+min 1000 str
+
+ООП:
+1. Инкапсуляция
+2. Наследование
+3. Полиморфизм
+
+Данные	 		+		 алгоритмы:
+							main()
+
+
+Данные и алгоритмы для работы с ними - object.
+typedef
+struct shooter{
+	int x, y;
+} shooter;
+
+shooter_init(&a);
+-------_initFromFile(&a, path);
+new = (calloc + init);
+-------_alloc;
+-------_delete\free(); 	//destructor
+b = shooter_new();
+shooter_move(shooter *p, int x, int y);
+init();					//constructor;
+
+1. Инкапсуляция с помощью #include <*.h>:
+struct Shooter;
+typedef struct shooter Shooter;
+Shooter *shooter_new();
+
+тела функций:
+в shooter.c
+struct ...
+{
+	
+
+};
+Shooter *shooter_new()
+{
+	
+
+}
+
+Makefile:
+prog: shooter.c + main.c
+gcc -c shooter.c -> .o
+gcc -o prog shooter.o main.o
+
+
+main.c
+#inlude "shooter.h"
+
+Контейнеры:
+
+

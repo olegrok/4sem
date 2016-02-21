@@ -1,0 +1,78 @@
+0: x y z, ..
+1: array add:o(n)
+2: list add:o(1)
+last|...|next
+
+Контейнер
+interface
+list_create		array_creat
+	 destroy
+Итератор - указатель на объект.
+for(i = 0; i < N; i++)
+	a[i]
+
+p = iter_create(); <=> int *p - бесполезно.
+
+a[i] = x;
+list_replace(a//не нужен, i, x);
+iter_replace(i, x)
+
+
+bublesort
+
+методы:
+конструкторы:
+{
+p = begin()/first()
+end()/last() - указывает на элемент за последним.
+find/at(i)/nth(i)
+}
+
+destroy
+
+сравнение
+i != end
+equal(i, end())
+
+перемещение
+(i++/i--)
+p = next(p)
+prev
+
+доступ
+*(a+i)
+get()
+
+
+
+
+a=list_create();
+list_instert(a, "one");
+		    .first
+		    .end
+c = list_count(a)
+printf
+for(i = list_begin(a); 
+!iter_equal(i, list_end() / !iter_exist(); 
+i = iter_next)
+{
+	iter_get();
+}
+
+virtual method
+x,y,z - data
+method_table
+*next
+*prev
+i->next();
+
+begin
+next
+prev
+
+
+
+
+
+ООП на Си
+Полиморфные классы на Си
