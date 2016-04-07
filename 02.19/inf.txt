@@ -76,3 +76,36 @@ prev
 
 ООП на Си
 Полиморфные классы на Си
+
+
+
+LIST C:
+
+/*
+list_next
+list_get
+*next->list_next();
+*get_list_get();
+*begin...
+list_create()
+{
+
+	m = malloc();
+	m->next=list_next();
+	begin=
+}
+
+вывод
+вставка\удаление
+сортировка
+
+	create
+	delete
+	insert ()
+	delet_elem
+	get_elem
+
+logo model library
+OplenGL
+SDL
+*/

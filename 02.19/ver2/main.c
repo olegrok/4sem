@@ -16,8 +16,8 @@ int main()
 		list_insertToEnd(myList, (void *) (array + k));
 	}
 
-	Iter *i = list_iter_begin(myList);
-	Iter *j;
+	Iter i = list_iter_begin(myList);
+	Iter j;
 	printf("\n\n\n");
 	for (; !i->zeroEqual(i); i->next(i))
 		printf("%d\n", *((int *) i->get(i)));
