@@ -1,0 +1,85 @@
+Указатели на функции в List:
+List
+1.Указатели на функции -> вынести в отдельную структуру.
+2. Данные
+
+p -> m -> instert
+m - общая структура	static ...
+container_table 
+
+map.h - публичный интерфейс
+struct map{
+	struct map methods;
+}
+
+tree.h				hash.h
+tree_create()		hash_create()
+
+struct list{
+	struct map_methods;
+	struct list_methods;
+	nop - дополнительная память.
+}
+list_insert(box *p)
+{
+	list_private * l = *(p + sizeof());
+}
+
+STL
+glib
+
+list.c
+struct list_methods{
+	void (*insert)()
+} l_m = {
+	list_insert,...;
+}
+
+list.h ->
+{
+	ctrod
+	dtor
+	methods
+}
+
+test.c
+{
+	list l = list_create();
+	l->m->insert(l, "hello");
+}	
+
+Симметрично для массива
+v = vector_create();
+v->m->insert(v, "hello");
+
+Вместе box.h
+{
+	
+}
+
+
+
+obj: -> Таблица методов (Описывается конструктором) -> 	box [+vect or  list]
+														box: insert, delete,...
+														list: reverse
+														vect: sort
+
+	-> list_only_m(...)
+
+
+Сама по себе структура box не возвращается - 
+list, vector...
+
+
+Отдельный header box.h
+В box.h
+struct box_methods
+
+
+list_create (CREATE)
+test_list: test1.c
+	gcc -DCREATE=list_create ... -o test.list
+lest_vec: test.c
+	gcc -DCREATE=vec_create
+
+iterator - структура, а не указатель на него.

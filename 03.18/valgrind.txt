@@ -1,0 +1,14 @@
+valgrind
+
+ptrace - process trase
+
+modules [memcheck] = default
+  --leakcheck=full;
+  + -g compile
+
+--track-fd=yes
+
+        [cachegrind]
+code coverage:
+cg_annotate
+cache statistics

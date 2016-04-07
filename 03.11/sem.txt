@@ -1,0 +1,17 @@
+map (key, value)
+hash, tree
+
+hashfn(p), comparefn(p1, p2);
+valid, get, set, swap
+
+Нет next, prev, index.
+
+Forward iterator
+Backword iterator;
++Stack (Хранение рекурсии)
+
+Find
+
+Foreach(p, func, data) -> func(elem, data);
+
+git rebase -i
