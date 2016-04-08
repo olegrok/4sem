@@ -58,8 +58,8 @@ private:
 };
 
 Word::Word(std::string& str){
-  std::transform(str.begin(), str.end(), word.begin(), tolower);
-  //word = str;
+  std::transform(str.begin(), str.end(), str.begin(), tolower);
+  word = str;
   freq = 1;
 }
 
