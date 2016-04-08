@@ -6,12 +6,15 @@
 #include <fstream>
 #include <boost/algorithm/string.hpp>
 #include <boost/algorithm/string/split.hpp>
+#include <boost/function.hpp>
+#include <boost/bind.hpp>
+#include <iterator>
 
 struct Word{
   std::string word;
   int freq;
 
-  Word(std::string);
+  Word(std::string&);
   ~Word(){};
   Word(const Word& w);
   Word& operator=(const Word& w)
@@ -28,6 +31,7 @@ struct Word{
 };
 
 class Dictionary{
+  friend class dicIter;
 public:
   Dictionary(){};
   Dictionary(const Dictionary& dic);
@@ -38,7 +42,9 @@ public:
     return *this;
   }
 
-  void insert(std::string);
+  void insert(std::string &);
+  void insert(std::string &&);
+  void insert(std::vector<std::string> &);
   void stat();
   void fileLoad(std::string);
   void sort();
@@ -51,9 +57,9 @@ private:
   }
 };
 
-Word::Word(std::string str){
-  std::transform(str.begin(), str.end(), str.begin(), tolower);
-  word = str;
+Word::Word(std::string& str){
+  std::transform(str.begin(), str.end(), word.begin(), tolower);
+  //word = str;
   freq = 1;
 }
 
@@ -63,7 +69,7 @@ Word::Word(const Word& wd)
   freq = wd.freq;
 }
 
-void Dictionary::insert(std::string str){
+void Dictionary::insert(std::string &str){
   Word w(str);
   auto it = std::find_if(vec.begin(), vec.end(), bind1st(std::equal_to<Word>(),w));
   if(it != vec.end())
@@ -72,9 +78,20 @@ void Dictionary::insert(std::string str){
     vec.push_back(Word(str));
 }
 
+void Dictionary::insert(std::string &&move){
+  std::string str;
+  std::swap(str, move);
+  insert(str);
+}
+
+void Dictionary::insert(std::vector<std::string> &vec){
+  for(auto i : vec)
+    insert(i);
+}
+
 void Dictionary::show(Word wd)
 {
-  std::cout << wd.word << "\t" << wd.freq << std::endl;
+  std::cout << wd.word << "\t\t\t" << wd.freq << std::endl;
 }
 
 void Dictionary::stat(){
@@ -84,25 +101,15 @@ void Dictionary::stat(){
 void Dictionary::fileLoad(std::string filename){
   std::ifstream F;
   F.open(filename, std::ios::in);
+  std::string str;
   std::vector<std::string> vecStr;
-  std::string strBuf;
+  //auto it = std::inserter(vecStr, vecStr.begin());
   while(!F.eof()){
-    F >> strBuf;
-    vecStr.push_back(strBuf);
+    F >> str;
+    boost::split(vecStr, str, boost::bind(boost::is_alnum(), _1));
+    insert(vecStr);
   }
 
-  std::vector<std::string> strs;
-  std::vector<std::string> strsBuf;
-  for(auto it = vecStr.begin(); it != vecStr.end(); it++){
-    boost::split(strsBuf,*it,boost::is_any_of("\t\n;!,.&?\"\':()[]*-"));
-    for(auto it2 = strsBuf.begin(); it2 != strsBuf.end(); it2++){
-        if(!(*it2).empty())
-        strs.push_back(*it2);
-    }
-  }
-
-  for(auto it = strs.begin(); it != strs.end(); it++)
-    insert(*it);
   F.close();
 }
 
@@ -110,25 +117,17 @@ void Dictionary::sort(){
   std::sort(vec.begin(), vec.end(), _cmp);
 }
 
+class dicIter : public std::iterator<std::output_iterator_tag, Dictionary>{
+  explicit dicIter(Dictionary& dic);
+  dicIter& operator*(){
+
+  }
+};
+
+
 int main()
 {
   Dictionary dic;
-  dic.insert("proga");
-  dic.insert("proga");
-  dic.insert("proga");
-  dic.insert("proga");
-  dic.insert("infa");
-  dic.insert("infa");
-  dic.insert("Infa");
-  dic.stat();
-  dic.insert("proga");
-  dic.insert("proga");
-  dic.insert("proga");
-  dic.insert("proga");
-  dic.insert("infa");
-  dic.insert("infa");
-  dic.insert("infa123");
-  dic.insert("infa15");
   dic.fileLoad("book.txt");
   dic.sort();
   dic.stat();
