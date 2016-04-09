@@ -58,8 +58,9 @@ private:
 };
 
 Word::Word(std::string& str){
-  std::transform(str.begin(), str.end(), str.begin(), tolower);
-  word = str;
+  word.resize(str.size());
+  std::transform(str.begin(), str.end(), word.begin(), tolower);
+  //word = str;
   freq = 1;
 }
 
@@ -103,7 +104,7 @@ void Dictionary::fileLoad(std::string filename){
   F.open(filename, std::ios::in);
   std::string str;
   std::vector<std::string> vecStr;
-  //auto it = std::inserter(vecStr, vecStr.begin());
+  //auto it = std::back_insert_iterator< std::vector<std::string> >(vecStr);
   while(!F.eof()){
     F >> str;
     boost::split(vecStr, str, boost::bind(boost::is_alnum(), _1));
