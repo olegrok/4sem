@@ -9,6 +9,10 @@
 #include <boost/function.hpp>
 #include <boost/bind.hpp>
 #include <iterator>
+#include <locale.h>
+#include <locale>
+#include <boost/locale.hpp>
+#include <boost/locale/generator.hpp>
 
 struct Word{
   std::string word;
@@ -86,8 +90,10 @@ void Dictionary::insert(std::string &&move){
 }
 
 void Dictionary::insert(std::vector<std::string> &vec){
-  for(auto i : vec)
-    insert(i);
+  for(auto i : vec){
+    if(i != "")
+      insert(i);
+    }
 }
 
 void Dictionary::show(Word wd)
@@ -107,7 +113,7 @@ void Dictionary::fileLoad(std::string filename){
   //auto it = std::back_insert_iterator< std::vector<std::string> >(vecStr);
   while(!F.eof()){
     F >> str;
-    boost::split(vecStr, str, boost::bind(boost::is_alnum(), _1));
+    boost::split(vecStr, str, boost::bind(!boost::is_alnum(), _1));
     insert(vecStr);
   }
 
@@ -128,6 +134,12 @@ class dicIter : public std::iterator<std::output_iterator_tag, Dictionary>{
 
 int main()
 {
+  setlocale(LC_ALL, "");
+  std::locale::global(std::locale("ru_RU.UTF-8"));
+  std::locale utf8_locale("ru_RU.UTF-8");
+  std::locale::global(utf8_locale);
+
+  //std::cout << std::endl << setlocale(LC_ALL, "ru_RU.UTF-8");
   Dictionary dic;
   dic.fileLoad("book.txt");
   dic.sort();
